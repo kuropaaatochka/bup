@@ -2,11 +2,12 @@
 
 #include <iostream>
 #include <string>
+#include <stdexcept>
 
 // Define custom exception class
-class AnimalException : public std::exception {
+class InputValidationException : public std::exception {
 public:
-    AnimalException(const std::string& message) : msg(message) {}
+    InputValidationException(const std::string& message) : msg(message) {}
 
     const char* what() const noexcept override {
         return msg.c_str();
@@ -15,3 +16,4 @@ public:
 private:
     std::string msg;
 };
+

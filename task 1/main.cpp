@@ -2,6 +2,6 @@
 
 int main(int argc, const char *argv[]) {
     Menu menu;
-    menu.mainFunc();
+    menu.mainMenu();
     return 0;
 }
