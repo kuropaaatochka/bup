@@ -54,7 +54,7 @@ void Menu::mainMenu() {
                     getline(cin, type);
                     
                     // converting string to lowercase
-                    for (auto ch : type) {
+                    for (auto& ch : type) {
                         ch = tolower(ch);
                     }
                     
@@ -137,7 +137,7 @@ void Menu::mainMenu() {
                     string type;
                     getline(cin, type);
                     
-                    for (auto ch : type) {
+                    for (auto& ch : type) {
                         ch = tolower(ch);
                     }
                     

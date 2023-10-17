@@ -91,7 +91,7 @@ void Cat::modify() {
     std::getline(std::cin, option);
 
     // Convert option to lowercase
-    for (auto ch : option) {
+    for (auto& ch : option) {
         ch = tolower(ch);
     }
 
@@ -100,7 +100,6 @@ void Cat::modify() {
     } else {
         std::cout << "Enter the new trait: ";
         std::string trait;
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::getline(std::cin, trait);
 
         if (option == "breed") {

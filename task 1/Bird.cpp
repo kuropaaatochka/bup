@@ -91,27 +91,26 @@ void Bird::modify() {
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::getline(std::cin, option);
     
-    for (auto ch : option) {
+    for (auto& ch : option) {
         ch = tolower(ch);
     }
     
     if (option != "breed" && option != "color" && option != "eats" && option != "habitat") {
         std::cout << "You have entered incorrect trait." << std::endl;
-    }
-
-    std::cout << "Enter the trait: ";
-    std::string trait;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    std::getline(std::cin, trait);
-    
-    if (option == "breed") {
-        setBreed(trait);
-    } else if (option == "color") {
-        setColor(trait);
-    } else if (option == "eats") {
-        setEats(trait);
     } else {
-        setHabitat(trait);
+        std::cout << "Enter the trait: ";
+        std::string trait;
+        std::getline(std::cin, trait);
+        
+        if (option == "breed") {
+            setBreed(trait);
+        } else if (option == "color") {
+            setColor(trait);
+        } else if (option == "eats") {
+            setEats(trait);
+        } else {
+            setHabitat(trait);
+        }
     }
 }
 

@@ -95,13 +95,23 @@ void Keeper::displayByType(const std::string& type) const {
     if (type == "fish" || type == "cat" || type == "bird") {
         if (numAnimals > 0) {
             for (int i = 0; i < numAnimals; i++) {
-                animals[i]->displayInfo();
+                // Check the type of the animal and display only if it matches the specified type.
+                if (type == "fish" && dynamic_cast<Fish*>(animals[i])) {
+                    animals[i]->displayInfo();
+                } else if (type == "cat" && dynamic_cast<Cat*>(animals[i])) {
+                    animals[i]->displayInfo();
+                } else if (type == "bird" && dynamic_cast<Bird*>(animals[i])) {
+                    animals[i]->displayInfo();
+                }
             }
         } else {
-            std::cout << "No animals in the Keeper." << std::endl;
+            std::cout << "No animals of type " << type << " in the Keeper." << std::endl;
         }
-    } else throw InputValidationException("There's no such type.");
+    } else {
+        throw InputValidationException("There's no such type.");
+    }
 }
+
 
 void Keeper::modifyAnimal(const int index) {
     if (index < 0) {

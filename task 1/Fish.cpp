@@ -77,28 +77,29 @@ void Fish::modify() {
     std::string option;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::getline(std::cin, option);
-    
-    for (auto ch : option) {
+
+    // Convert the option to lowercase
+    for (auto& ch : option) {
         ch = tolower(ch);
     }
-    
-    if (option != "breed" && option != "color" && option != "foodtype") {
-        std::cout << "You have entered incorrect trait." << std::endl;
-    }
 
-    std::cout << "Enter the trait: ";
-    std::string trait;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    std::getline(std::cin, trait);
-    
-    if (option == "breed") {
-        setBreed(trait);
-    } else if (option == "color") {
-        setColor(trait);
+    if (option != "breed" && option != "color" && option != "foodtype") {
+        std::cout << "You have entered an incorrect trait." << std::endl;
     } else {
-        setFoodType(trait);
+        std::cout << "Enter the new trait: ";
+        std::string trait;
+        std::getline(std::cin, trait);
+
+        if (option == "breed") {
+            setBreed(trait);
+        } else if (option == "color") {
+            setColor(trait);
+        } else {
+            setFoodType(trait);
+        }
     }
 }
+
 
 void Fish::saveToFile(std::ofstream& file) const {
     file << "Fish " << breed << " " << color << " " << foodType << std::endl;
