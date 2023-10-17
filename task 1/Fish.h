@@ -34,6 +34,8 @@ public:
     void setColor(std::string color);
     void setFoodType(std::string foodType);
     
+    bool operator==(const Animal& animal) const override;
+    
     void displayInfo() const override;
     void modify() override;
     void saveToFile(std::ofstream& file) const override;

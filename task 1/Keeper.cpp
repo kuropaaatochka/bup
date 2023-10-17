@@ -10,7 +10,7 @@ Keeper::Keeper()
 // Copy constructor
 Keeper::Keeper(const Keeper& keeper) {
     numAnimals = keeper.numAnimals;
-    animals = keeper.animals;
+    animals = new Animal*[numAnimals];
     
     for (int i = 0; i < numAnimals; i++) {
         if (dynamic_cast<Bird*>(keeper.animals[i])) {
@@ -113,18 +113,36 @@ void Keeper::modifyAnimal(const int index) {
     }
 }
 
+void Keeper::checkIfEqual(const int index1, const int index2) {
+    if (index1 >= 0 && index1 < numAnimals &&
+        index2 >= 0 && index2 < numAnimals) {
+        
+        if ((dynamic_cast<Bird*>(getAnimal(index1))) && (dynamic_cast<Bird*>(getAnimal(index2)))) {
+            std::cout << "The animals are " << (getAnimal(index1) == getAnimal(index2) ? "" : "not ") << "equal." << std::endl;
+        } else if ((dynamic_cast<Cat*>(getAnimal(index1))) && (dynamic_cast<Cat*>(getAnimal(index2)))) {
+            std::cout << "The animals are " << (getAnimal(index1) == getAnimal(index2) ? "" : "not ") << "equal." << std::endl;
+        } else if ((dynamic_cast<Fish*>(getAnimal(index1))) && (dynamic_cast<Fish*>(getAnimal(index2)))) {
+            std::cout << "The animals are " << ((dynamic_cast<Fish*>(getAnimal(index1))) == (dynamic_cast<Fish*>(getAnimal(index2))) ? "" : "not ") << "equal." << std::endl;
+        } else {
+            std::cout << "The animals have different types." << std::endl;
+        }
+    } else {
+        std::cerr << "Incorrect index." << std::endl;
+    }
+}
+
 void Keeper::saveToFile(const std::string& filename) const {
     std::ofstream file(filename);
-        if (file.is_open()) {
-            file << numAnimals << std::endl;
-            for (int i = 0; i < numAnimals; ++i) {
-                animals[i]->saveToFile(file);
-            }
-            file.close();
-            std::cout << "Saved " << numAnimals << " animals to " << filename << std::endl;
-        } else {
-            std::cerr << "Error: Unable to open the file for saving." << std::endl;
+    if (file.is_open()) {
+        file << numAnimals << std::endl;
+        for (int i = 0; i < numAnimals; ++i) {
+            animals[i]->saveToFile(file);
         }
+        file.close();
+        std::cout << "Saved " << numAnimals << " animals to " << filename << std::endl;
+    } else {
+        std::cerr << "Error: Unable to open the file for saving." << std::endl;
+    }
 }
 
 void Keeper::loadFromFile(const std::string& filename) {

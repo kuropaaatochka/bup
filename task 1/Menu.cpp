@@ -37,7 +37,8 @@ void Menu::mainMenu() {
         cout << "5. Load animals from a file" << endl;
         cout << "6. Display animals by type" << endl;
         cout << "7. Modify animal's data" << endl;
-        cout << "8. Exit" << endl;
+        cout << "8. Compare two animals" << endl;
+        cout << "9. Exit" << endl;
         cout << "===========================" << endl;
         cout << "Enter the option: ";
 
@@ -149,7 +150,14 @@ void Menu::mainMenu() {
                     animalKeeper.modifyAnimal(index);
                     break;
                 }
-                case '8':
+                case '8': {
+                    cout << "Enter two indexes of animals to be compared:" << endl;
+                    int index1 = getInt();
+                    int index2 = getInt();
+                    animalKeeper.checkIfEqual(index1, index2);
+                    break;
+                }
+                case '9':
                     cout << "Exiting the program." << endl;
                     break;
                 default:
@@ -158,5 +166,5 @@ void Menu::mainMenu() {
         } catch (const InputValidationException& e) {
             cerr << "Error: " << e.what() << " Try again." << endl;
         }
-    } while (option != '8');
+    } while (option != '9');
 }

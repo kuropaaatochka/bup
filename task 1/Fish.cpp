@@ -57,6 +57,14 @@ void Fish::setFoodType(std::string foodType) {
     this->foodType = foodType;
 }
 
+bool Fish::operator==(const Animal& animal) const {
+    if (dynamic_cast<const Fish*>(&animal)) {
+        const Fish& fish = dynamic_cast<const Fish&>(animal);
+        return breed == fish.breed && color == fish.color && foodType == fish.foodType;
+    }
+    return false;
+}
+
 void Fish::displayInfo() const {
     std::cout << "Fish: Breed: " << breed
               << ", Color: " << color

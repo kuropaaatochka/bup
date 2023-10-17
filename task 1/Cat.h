@@ -35,6 +35,8 @@ public:
     void setColor(std::string color);
     void setOwnerName(std::string ownerName);
     void setNickname(std::string nickname);
+    
+    bool operator==(const Animal& animal) const override;
 
     void displayInfo() const override;
     void modify() override;

@@ -69,6 +69,14 @@ void Bird::setHabitat(std::string habitat) {
     this->habitat = habitat;
 }
 
+bool Bird::operator==(const Animal& animal) const {
+    if (dynamic_cast<const Bird*>(&animal)) {
+        const Bird& bird = dynamic_cast<const Bird&>(animal);
+        return breed == bird.breed && color == bird.color && eats == bird.eats && habitat == bird.habitat;
+    }
+    return false;
+}
+
 
 void Bird::displayInfo() const {
     std::cout << "Bird: Breed: " << breed

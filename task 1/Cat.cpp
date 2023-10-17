@@ -69,6 +69,14 @@ void Cat::setNickname(std::string nickname) {
     this->nickname = nickname;
 }
 
+bool Cat::operator==(const Animal& animal) const {
+    if (dynamic_cast<const Cat*>(&animal)) {
+        const Cat& cat = dynamic_cast<const Cat&>(animal);
+        return breed == cat.breed && color == cat.color && ownerName == cat.ownerName && nickname == cat.nickname;
+    }
+    return false;
+}
+
 void Cat::displayInfo() const {
     std::cout << "Cat: Breed: " << breed
               << ", Color: " << color
@@ -89,7 +97,6 @@ void Cat::modify() {
 
     if (option != "breed" && option != "color" && option != "ownername" && option != "nickname") {
         std::cout << "You have entered an incorrect trait." << std::endl;
-        // Optionally, you can add a way to re-enter the option here.
     } else {
         std::cout << "Enter the new trait: ";
         std::string trait;

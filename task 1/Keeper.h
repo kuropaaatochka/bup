@@ -29,6 +29,9 @@ public:
     void displayAnimals() const;
     void displayByType(const std::string& type) const;
     void modifyAnimal(const int index);
+    
+    void checkIfEqual(const int index1, const int index2);
+    
     void saveToFile(const std::string& filename) const;
     void loadFromFile(const std::string& filename);
 };

@@ -35,6 +35,8 @@ public:
     void setColor(std::string color);
     void setEats(std::string eats);
     void setHabitat(std::string habitat);
+    
+    bool operator==(const Animal& animal) const override;
 
     void displayInfo() const override;
     void modify() override;
