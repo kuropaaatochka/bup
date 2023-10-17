@@ -62,10 +62,10 @@ bool Keeper::removeAnimal(const int index) {
                     continue;
                 }
                 if (i > index) {
-                    newAnimals[i] = animals[i];
+                    newAnimals[i - 1] = animals[i];
                     continue;
                 }
-                newAnimals[i - 1] = animals[i];
+                newAnimals[i] = animals[i];
             }
             
             delete [] animals;
