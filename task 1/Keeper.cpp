@@ -118,11 +118,14 @@ void Keeper::checkIfEqual(const int index1, const int index2) {
         index2 >= 0 && index2 < numAnimals) {
         
         if ((dynamic_cast<Bird*>(getAnimal(index1))) && (dynamic_cast<Bird*>(getAnimal(index2)))) {
-            std::cout << "The animals are " << (getAnimal(index1) == getAnimal(index2) ? "" : "not ") << "equal." << std::endl;
+            std::cout << "The animals are " << ((dynamic_cast<Bird*>(getAnimal(index1))) ==
+                                                (dynamic_cast<Bird*>(getAnimal(index2))) ? "" : "not ") << "equal." << std::endl;
         } else if ((dynamic_cast<Cat*>(getAnimal(index1))) && (dynamic_cast<Cat*>(getAnimal(index2)))) {
-            std::cout << "The animals are " << (getAnimal(index1) == getAnimal(index2) ? "" : "not ") << "equal." << std::endl;
+            std::cout << "The animals are " << ((dynamic_cast<Cat*>(getAnimal(index1))) ==
+                                                (dynamic_cast<Cat*>(getAnimal(index2))) ? "" : "not ") << "equal." << std::endl;
         } else if ((dynamic_cast<Fish*>(getAnimal(index1))) && (dynamic_cast<Fish*>(getAnimal(index2)))) {
-            std::cout << "The animals are " << ((dynamic_cast<Fish*>(getAnimal(index1))) == (dynamic_cast<Fish*>(getAnimal(index2))) ? "" : "not ") << "equal." << std::endl;
+            std::cout << "The animals are " << ((dynamic_cast<Fish*>(getAnimal(index1))) == 
+                                                (dynamic_cast<Fish*>(getAnimal(index2))) ? "" : "not ") << "equal." << std::endl;
         } else {
             std::cout << "The animals have different types." << std::endl;
         }
