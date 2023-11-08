@@ -96,7 +96,7 @@ void Bird::modify() {
     }
     
     if (option != "breed" && option != "color" && option != "eats" && option != "habitat") {
-        std::cout << "You have entered incorrect trait." << std::endl;
+        std::cerr << "You have entered incorrect trait." << std::endl;
     } else {
         std::cout << "Enter the trait: ";
         std::string trait;

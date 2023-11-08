@@ -140,7 +140,7 @@ void Keeper::checkIfEqual(const int index1, const int index2) {
                 std::cout << "he animals are NOT equal" << std::endl;
             }
         } else {
-            std::cout << "At least one of the animals is nullptr." << std::endl;
+            std::cerr << "At least one of the animals is nullptr." << std::endl;
         }
     } else {
         std::cerr << "Incorrect index." << std::endl;
