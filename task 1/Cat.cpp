@@ -96,7 +96,7 @@ void Cat::modify() {
     }
 
     if (option != "breed" && option != "color" && option != "ownername" && option != "nickname") {
-        std::cout << "You have entered an incorrect trait." << std::endl;
+        std::cerr << "You have entered an incorrect trait." << std::endl;
     } else {
         std::cout << "Enter the new trait: ";
         std::string trait;
