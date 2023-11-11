@@ -4,6 +4,7 @@
 #include <string>
 
 class АЕRОFLОТ {
+public:
     АЕRОFLОТ(); // Default constructor
     АЕRОFLОТ(const std::string& destination, int flightNumber, const std::string& aircraftType);
     АЕRОFLОТ(const АЕRОFLОТ& АЕRОFLОТ); // Copy constructor
