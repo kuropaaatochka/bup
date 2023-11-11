@@ -30,5 +30,36 @@ void Menu::task_2() {
 }
 
 void Menu::mainMenu() {
-    task_2();
+    char option;
+    
+    while (true) {
+         try {
+            cout << "========== Main menu ==========" << endl;
+            cout << "1. Run Task 1" << endl;
+            cout << "2. Run Task 2" << endl;
+            cout << "0. Exit" << endl;
+            cout << "===========================" << endl;
+            cout << "Enter the option: ";
+            
+            cin >> option;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear the input buffer
+            
+            switch (option) {
+                case '1':
+                    task_1();
+                    break;
+                case '2':
+                    task_2();
+                    break;
+                case '0':
+                    cout << "Exiting the program." << endl;
+                    return;
+                default:
+                    throw invalid_argument("Incorrect value");
+            }
+        }
+        catch (const exception& e) {
+            cerr << "Invalid input: " << e.what() << endl;
+        }
+    }
 }

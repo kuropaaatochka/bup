@@ -1,8 +1,12 @@
 #pragma once
 
+#include "АЕRОFLОТ.h"
+
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdexcept>
+
 
 class Menu {
 public:
