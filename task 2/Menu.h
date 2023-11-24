@@ -1,6 +1,6 @@
 #pragma once
 
-#include "АЕRОFLОТ.h"
+#include "AEROFLOT.h"
 
 #include <iostream>
 #include <fstream>

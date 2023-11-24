@@ -3,7 +3,93 @@
 using namespace std;
 
 void Menu::task_1() {
+    AEROFLOT flights;   // flights array initiator
     
+    while (true) {
+        cout << "Options:" << endl;
+        cout << "1. Add a new flight" << endl;
+        cout << "2. Edit a flight" << endl;
+        cout << "3. Delete a flight" << endl;
+        cout << "4. Display all flights" << endl;
+        cout << "5. Display flights to a specific destination" << endl;
+        cout << "6. Exit" << endl;
+        
+        int choice;
+        cout << "Enter your choice: ";
+        cin >> choice;
+        
+        try {
+            switch (choice) {
+                case 1: { // Add a new flight
+                    AEROFLOT newFlight;
+                    try {
+                        std::cin >> newFlight; // Use the overloaded '>>' operator
+                        flights += newFlight;
+                        cout << "The flight was added." << endl;
+                    } catch (const std::invalid_argument& e) {
+                        std::cerr << "Error: " << e.what() << std::endl;
+                        continue;
+                    }
+                    
+                    break;
+                }
+                case 2: {
+                    try {
+                        cout << "Input an index of the flight to be edited: ";
+                        int indexToEdit;
+                        cin >> indexToEdit;
+                        
+                        flights.editFlight(indexToEdit);
+                    } catch (const std::exception& e) {
+                        std::cerr << "Error: " << e.what() << "\n";
+                    }
+                    break;
+                }
+                case 3: {
+                    try {
+                        cout << "Input an index of the flight to be deleted: ";
+                        int indexToDelete;
+                        cin >> indexToDelete;
+                        
+                        flights -= indexToDelete;
+                    } catch (const std::exception& e) {
+                        std::cerr << "Error: " << e.what() << "\n";
+                    }
+                    break;
+                }
+                case 4:
+                    flights.displayFlights();
+                    break;
+                case 5:
+                    try {
+                        std::string destination;
+                        std::cout << "Enter the destination to display flights: ";
+                        std::cin >> destination;
+                        
+                        flights.displayFlightsToDestination(destination);
+                    } catch (const std::exception& e) {
+                        std::cerr << "Error: " << e.what() << "\n";
+                    }
+                    break;
+                case 6:
+                    return;
+                    break;
+                default:
+                    break;
+            }
+        } catch (const std::invalid_argument& e) {
+            std::cerr << "Invalid input: " << e.what() << std::endl;
+        }
+        
+    }
+    
+    
+    
+//    cout << "Enter data" << endl;
+//    cin >> aeroflot;
+//    cout << endl;
+//    cout << aeroflot;
+//    
 }
 
 void Menu::task_2() {
