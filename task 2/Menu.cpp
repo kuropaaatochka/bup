@@ -34,9 +34,24 @@ void Menu::task_1() {
                 }
                 case 2: {
                     try {
-                        cout << "Input an index of the flight to be edited: ";
                         int indexToEdit;
-                        cin >> indexToEdit;
+                    
+                        while (true) {
+                            try {
+                                cout << "Input an index of the flight to be edited: ";
+                                cin >> indexToEdit;
+
+                                if (cin.fail()) { // If input is not an integer
+                                    throw invalid_argument("Flight number must be an integer.");
+                                }
+
+                                break; // If valid input, exit the loop
+                            } catch (const exception& e) {
+                                cerr << "Error:" << e.what() << endl;
+                                cin.clear(); // Clear the error flag
+                                cin.ignore(); // Discard invalid input
+                            }
+                        }
                         
                         flights->editFlight(flights, indexToEdit);
                     } catch (const exception& e) {
@@ -46,16 +61,21 @@ void Menu::task_1() {
                 }
                 case 3: {
                     try {
-                        flights = flights - (*flights); // A plug to make things work
+                        flights = flights - (*flights); // A plug to make things work (turns a pointer into an object)
                     } catch (const exception& e) {
                         cerr << "Error: " << e.what() << endl;
                     }
                     break;
                 }
-                case 4:
-                    flights->displayAllFlights(flights);
+                case 4: {
+                    try {
+                        flights->displayAllFlights(flights);
+                    } catch (const exception& e) {
+                        cerr << "Error: " << e.what() << endl;
+                    }
                     break;
-                case 5:
+                }
+                case 5: {
                     try {
                         string destination;
                         cin.ignore();
@@ -67,10 +87,12 @@ void Menu::task_1() {
                         cerr << "Error: " << e.what() << endl;
                     }
                     break;
+                }
                 case 6:
                     return;
                     break;
                 default:
+                    throw invalid_argument("Not a number in range [1, 6].");
                     break;
             }
         } catch (const invalid_argument& e) {

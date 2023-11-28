@@ -89,10 +89,14 @@ void AEROFLOT::displayAllFlights(const AEROFLOT* flights) {
 }
 
 void AEROFLOT::displayFlightsToDest(const AEROFLOT* flights, const string& dest) {
+    if (!flights) {
+        throw out_of_range("No flights in the array.");
+    }
+    
     bool found = false;
     for (int i = 0; i < numFlights; i++) {
         if (flights[i].getDestination() == dest) {
-            cout << flights[i] << endl;
+            cout << "Flight number: " << flights[i].flightNumber << "\tAircraft type: " << flights[i].aircraftType << endl;
             found = true;
         }
     }
@@ -103,6 +107,10 @@ void AEROFLOT::displayFlightsToDest(const AEROFLOT* flights, const string& dest)
 
 
 void AEROFLOT::editFlight(AEROFLOT* flights, const int index) {
+    if (!flights) {
+        throw out_of_range("No flights in the array.");
+    }
+    
     if (index < 0 || index >= numFlights) {
         throw out_of_range("Invalid index for editing a flight.");
     }
@@ -113,6 +121,9 @@ void AEROFLOT::editFlight(AEROFLOT* flights, const int index) {
         cout << "1. Destination\n";
         cout << "2. Flight Number\n";
         cout << "3. Aircraft Type\n";
+        
+        cin.clear();
+        cin.ignore();
         int choice;
         cin >> choice;
 
@@ -145,13 +156,15 @@ void AEROFLOT::editFlight(AEROFLOT* flights, const int index) {
         }
 
         cout << "Flight at index " << index << " successfully edited.\n";
+        
+        flights->sort(flights, flights->getNumFlights() - 1);
     } catch (const exception& e) {
         cerr << "Error: " << e.what() << endl;
         // Clear input buffer to avoid infinite loop in case of non-integer input
         cin.clear();
         cin.ignore();
     }
-    flights->sort(flights, flights->getNumFlights() - 1);
+
 }
 
 void AEROFLOT::sort(AEROFLOT* flights, const int count) {
@@ -189,7 +202,7 @@ istream& operator>>(istream& in, AEROFLOT& AEROFLOT) {
             cin >> flightNumber;
 
             if (cin.fail()) { // If input is not an integer
-                throw invalid_argument("Invalid input. Flight number must be an integer.");
+                throw invalid_argument("Flight number must be an integer.");
             } else if (flightNumber < 0) {
                 throw invalid_argument("Flight number cannot be negative.");
             }
@@ -216,14 +229,14 @@ AEROFLOT* operator+(AEROFLOT* flights, const AEROFLOT& newFlight) {
     try {
         int count = flights ? flights->getNumFlights() : 0;
 
-        int position;
+        int position = 0;
         while (true) {
             try {
                 cout << "Enter the position to add the new flight (0 to " << count << "): ";
                 cin >> position;
                 
                 if (cin.fail()) { // If input is not an integer
-                    throw invalid_argument("Invalid input. Flight number must be an integer.");
+                    throw invalid_argument("Flight number must be an integer.");
                 } else if (position < 0) {
                     throw invalid_argument("Flight number cannot be negative.");
                 } else if (position > count) {
@@ -232,7 +245,7 @@ AEROFLOT* operator+(AEROFLOT* flights, const AEROFLOT& newFlight) {
                 
                 break; // If valid input, exit the loop
             } catch (const exception& e) {
-                cerr << e.what() << endl;
+                cerr << "Error: " << e.what() << endl;
                 cin.clear(); // Clear the error flag
                 cin.ignore(); // Discard invalid input
             }
@@ -249,7 +262,7 @@ AEROFLOT* operator+(AEROFLOT* flights, const AEROFLOT& newFlight) {
         
         int j = 0;
         for (int i = 0; i < count + 1; ++i) {
-            if (i == position /*- 1*/) {
+            if (i == position) {
                 newFlights[i] = newFlight;
             } else {
                 newFlights[i] = flights[j++];
@@ -271,6 +284,10 @@ AEROFLOT* operator+(AEROFLOT* flights, const AEROFLOT& newFlight) {
 
 // Overloaded - operator to delete a flight by index
 AEROFLOT* operator-(AEROFLOT* flights, const AEROFLOT& plugFlight) {
+    if (!flights) {
+        throw out_of_range("No flights in the array.");
+    }
+    
     try {
         int indexToRemove;
         cout << "Input an index of the flight to be removed: ";
