@@ -1,19 +1,22 @@
 #include "AEROFLOT.h"
 
+using namespace std;
+
 AEROFLOT::AEROFLOT() 
-    : destination("None")
+    : numFlights(0)
+    , destination("None")
     , flightNumber(0)
     , aircraftType("None")
 {
-    std::cout << "Default AEROFLOT constructor called." << std::endl;
+    cout << "Default AEROFLOT constructor called." << endl;
 }
 
-AEROFLOT::AEROFLOT(const std::string& dest, int flight, const std::string& type)
+AEROFLOT::AEROFLOT(const string& dest, int flight, const string& type)
     : destination(dest)
     , flightNumber(flight)
     , aircraftType(type)
 {
-    std::cout << "Constructor with parameters called." << std::endl;
+    cout << "Constructor with parameters called." << endl;
 }
 
 AEROFLOT::AEROFLOT(const AEROFLOT& AEROFLOT) 
@@ -21,14 +24,14 @@ AEROFLOT::AEROFLOT(const AEROFLOT& AEROFLOT)
     , flightNumber(AEROFLOT.flightNumber)
     , aircraftType(AEROFLOT.aircraftType)
 {
-    std::cout << "Copy constructor called." << std::endl;
+    cout << "Copy constructor called." << endl;
 }
 
 AEROFLOT::~AEROFLOT() {
-    std::cout << "Destructor called." << std::endl;
+    cout << "Destructor called." << endl;
 }
 
-const std::string& AEROFLOT::getDestination() const {
+const string& AEROFLOT::getDestination() const {
     return destination;
 }
 
@@ -36,7 +39,7 @@ int AEROFLOT::getFlightNumber() const {
     return flightNumber;
 }
 
-const std::string& AEROFLOT::getAircraftType() const {
+const string& AEROFLOT::getAircraftType() const {
     return aircraftType;
 }
 
@@ -44,209 +47,252 @@ int AEROFLOT::getNumFlights() const {
     return numFlights;
 }
 
-void AEROFLOT::setDestination(const std::string& dest) {
+void AEROFLOT::setDestination(const string& dest) {
     destination = dest;
 }
 
 void AEROFLOT::setFlightNumber(const int flight) {
     if (flight < 0) {
-        throw std::invalid_argument("Flight number cannot be negative.");
+        throw invalid_argument("Flight number cannot be negative.");
     }
     flightNumber = flight;
 }
 
-void AEROFLOT::setAircraftType(const std::string& type) {
+void AEROFLOT::setAircraftType(const string& type) {
     aircraftType = type;
 }
 
 void AEROFLOT::setNumFlights(const int num) {
     try {
-        if (std::cin.fail()) {
-            std::cin.clear(); // Clear the error flag
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
-            throw std::invalid_argument("Invalid input. Please enter an integer.");
+        if (cin.fail()) {
+            cin.clear(); // Clear the error flag
+            cin.ignore(); // Discard invalid input
+            throw invalid_argument("Invalid input. Please enter an integer.");
         }
 
         numFlights = num;
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << "\n";
+    } catch (const exception& e) {
+        cerr << "Error: " << e.what() << endl;
     }
 }
 
-void AEROFLOT::displayFlights() {
-    if (!numFlights) {
+// Function to display all flights
+void AEROFLOT::displayAllFlights(const AEROFLOT* flights) {
+    if (flights) {
+        cout << "------ All Flights ------" << endl;
         for (int i = 0; i < numFlights; i++) {
-            std::cout << flights[i];
+            cout << flights[i] << endl;
         }
+    } else {
+        cout << "No flights available." << endl;
     }
 }
 
-void AEROFLOT::displayFlightsToDestination(const std::string& dest) {
+void AEROFLOT::displayFlightsToDest(const AEROFLOT* flights, const string& dest) {
     bool found = false;
     for (int i = 0; i < numFlights; i++) {
         if (flights[i].getDestination() == dest) {
-            std::cout << flights[i]; 
+            cout << flights[i] << endl;
             found = true;
         }
     }
     if (!found) {
-        std::cout << "No flights to the specified destination." << std::endl;
-    }
-}
-
-void AEROFLOT::addFlightToPosition(const int position, const AEROFLOT& flight) {
-    try {
-        if (position < 0 || position > numFlights) {
-            throw std::invalid_argument("Invalid position for adding a new flight.");
-        }
-
-        // Increase the size of the flights array by one
-        AEROFLOT* newFlights = new AEROFLOT[numFlights + 1];
-
-        // Copy existing flights up to the specified position
-        for (int i = 0; i < position; i++) {
-            newFlights[i] = flights[i];
-        }
-
-        // Insert the new flight at the specified position
-        newFlights[position] = flight;
-
-        // Copy the remaining flights after the inserted position
-        for (int i = position + 1; i <= numFlights; i++) {
-            newFlights[i] = flights[i - 1];
-        }
-
-        // Deallocate memory for the old flights array
-        delete[] flights;
-
-        // Update flights pointer to point to the new array
-        flights = newFlights;
-
-        // Increment the number of flights
-        numFlights++;
-
-        std::cout << "Flight successfully added at position " << position << ".\n";
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << "\n";
+        cout << "No flights to the specified destination." << endl;
     }
 }
 
 
-void AEROFLOT::editFlight(const int index) {
+void AEROFLOT::editFlight(AEROFLOT* flights, const int index) {
     if (index < 0 || index >= numFlights) {
-        throw std::out_of_range("Invalid index for editing a flight.");
+        throw out_of_range("Invalid index for editing a flight.");
     }
-    std::cout << "Editing Flight at index " << index << "\n";
+    cout << "Editing Flight at index " << index << endl;
     
     try {
-        // Prompt user for what to change
-        std::cout << "Choose what to change:\n";
-        std::cout << "1. Flight Number\n";
-        std::cout << "2. Destination\n";
-        std::cout << "3. Aircraft Type\n";
+        cout << "Choose what to change:\n";
+        cout << "1. Destination\n";
+        cout << "2. Flight Number\n";
+        cout << "3. Aircraft Type\n";
         int choice;
-        std::cin >> choice;
+        cin >> choice;
 
-        if (std::cin.fail()) {
-            throw std::invalid_argument("Invalid input. Please enter an integer.");
+        if (cin.fail()) {
+            throw invalid_argument("Invalid input. Please enter an integer.");
         }
 
         switch (choice) {
             case 1:
-                // Change Flight Number
-                int newFlightNumber;
-                std::cout << "Enter new Flight Number: ";
-                std::cin >> newFlightNumber;
-                flights[index].setFlightNumber(newFlightNumber);
+                // Change Destination
+                cout << "Enter new Destination: ";
+                cin.ignore();
+                getline(cin, flights[index].destination);
                 break;
             case 2:
-                // Change Destination
-                std::cout << "Enter new Destination: ";
-                std::cin >> flights[index].destination;
+                // Change Flight Number
+                int newFlightNumber;
+                cout << "Enter new Flight Number: ";
+                cin >> newFlightNumber;
+                flights[index].setFlightNumber(newFlightNumber);
                 break;
             case 3:
                 // Change Aircraft Type
-                std::cout << "Enter new Aircraft Type: ";
-                std::cin >> flights[index].aircraftType;
+                cout << "Enter new Aircraft Type: ";
+                cin.ignore();
+                getline(cin, flights[index].aircraftType);
                 break;
             default:
-                throw std::invalid_argument("Invalid choice. Please choose 1, 2, or 3.");
+                throw invalid_argument("Invalid choice. Please choose 1, 2, or 3.");
         }
 
-        std::cout << "Flight at index " << index << " successfully edited.\n";
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << "\n";
+        cout << "Flight at index " << index << " successfully edited.\n";
+    } catch (const exception& e) {
+        cerr << "Error: " << e.what() << endl;
         // Clear input buffer to avoid infinite loop in case of non-integer input
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cin.clear();
+        cin.ignore();
     }
+    flights->sort(flights, flights->getNumFlights() - 1);
+}
+
+void AEROFLOT::sort(AEROFLOT* flights, const int count) {
+    // Bubble sort
+    bool wasSorted = false;
+    for (int i = 0; i < count; i++) {
+        for (int j = 0; j < count - i; j++) {
+            if (flights[j].getFlightNumber() > flights[j + 1].getFlightNumber()) {
+                // Swap newFlights[j] and newFlights[j + 1]
+                AEROFLOT temp = flights[j];
+                flights[j] = flights[j + 1];
+                flights[j + 1] = temp;
+                wasSorted = true;
+            }
+        }
+    }
+    cout << "\nThe flights were" << (wasSorted ? " " : " not ") << "sorted." << endl;
 }
 
 
-std::ostream& operator<<(std::ostream& out, const AEROFLOT& AEROFLOT) {
-    out << "Destination: " << AEROFLOT.destination << "\n";
-    out << "Flight Number: " << AEROFLOT.flightNumber << "\n";
-    out << "Aircraft Type: " << AEROFLOT.aircraftType << "\n";
+ostream& operator<<(ostream& out, const AEROFLOT& AEROFLOT) {
+    out << "Destination: " << AEROFLOT.destination << "\tFlight Number: " << AEROFLOT.flightNumber << "\tAircraft Type: " << AEROFLOT.aircraftType << endl;
     return out;
 }
 
-std::istream& operator>>(std::istream& in, AEROFLOT& AEROFLOT) {
-    std::cout << "Enter Destination: ";
-    in >> AEROFLOT.destination;
+istream& operator>>(istream& in, AEROFLOT& AEROFLOT) {
+    cin.ignore();
+    cout << "Enter Destination: ";
+    getline(in, AEROFLOT.destination);
     
     int flightNumber;
-    std::cout << "Enter Flight Number: ";
-    in >> flightNumber;
-    
-    if (flightNumber < 0) {
-        throw std::invalid_argument("Flight number cannot be negative.");
+    while (true) {
+        try {
+            cout << "Enter Flight Number: ";
+            cin >> flightNumber;
+
+            if (cin.fail()) { // If input is not an integer
+                throw invalid_argument("Invalid input. Flight number must be an integer.");
+            } else if (flightNumber < 0) {
+                throw invalid_argument("Flight number cannot be negative.");
+            }
+
+            break; // If valid input, exit the loop
+        } catch (const exception& e) {
+            cerr << e.what() << endl;
+            cin.clear(); // Clear the error flag
+            cin.ignore(); // Discard invalid input
+        }
     }
     
     AEROFLOT.flightNumber = flightNumber;
     
-    std::cout << "Enter Aircraft Type: ";
-    in >> AEROFLOT.aircraftType;
+    cin.ignore();
+    cout << "Enter Aircraft Type: ";
+    getline(in, AEROFLOT.aircraftType);
+    
     return in;
 }
 
-void AEROFLOT::operator+=(const AEROFLOT& newFlight) {
+// Overloaded + operator to add a flight to the array
+AEROFLOT* operator+(AEROFLOT* flights, const AEROFLOT& newFlight) {
     try {
-        // Create a new array with increased size
-        AEROFLOT* newFlights = new AEROFLOT[numFlights + 1];
+        int count = flights ? flights->getNumFlights() : 0;
 
-        // Copy existing flights to the new array
-        for (int i = 0; i < numFlights; i++) {
-            newFlights[i] = flights[i];
-        }
-
-        // Add the new flight to the end of the array
-        newFlights[numFlights] = newFlight;
-
-        // Deallocate memory for the old flights array
-        delete[] flights;
-
-        // Update flights pointer to point to the new array
-        flights = newFlights;
-
-        // Increment the number of flights
-        numFlights++;
-
-        std::cout << "Flight successfully added.\n";
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << "\n";
-    }
-    
-}
-
-void AEROFLOT::operator-=(const int indexToRemove) {
-    try {
-        if (indexToRemove < 0 || indexToRemove >= numFlights) {
-            throw std::out_of_range("Invalid index for removing a flight.");
+        int position;
+        while (true) {
+            try {
+                cout << "Enter the position to add the new flight (0 to " << count << "): ";
+                cin >> position;
+                
+                if (cin.fail()) { // If input is not an integer
+                    throw invalid_argument("Invalid input. Flight number must be an integer.");
+                } else if (position < 0) {
+                    throw invalid_argument("Flight number cannot be negative.");
+                } else if (position > count) {
+                    throw invalid_argument("Flight number cannot be greater than the total number of flights.");
+                }
+                
+                break; // If valid input, exit the loop
+            } catch (const exception& e) {
+                cerr << e.what() << endl;
+                cin.clear(); // Clear the error flag
+                cin.ignore(); // Discard invalid input
+            }
         }
         
-        // Create a new array with reduced size
-        AEROFLOT* newFlights = new AEROFLOT[numFlights - 1];
+        AEROFLOT* newFlights = nullptr;
+        try {
+            newFlights = new AEROFLOT[count + 1];
+        } catch (const bad_alloc& ba) {
+            cerr << "Memory allocation error: " << ba.what() << endl;
+            return flights;
+        }
+        
+        
+        int j = 0;
+        for (int i = 0; i < count + 1; ++i) {
+            if (i == position /*- 1*/) {
+                newFlights[i] = newFlight;
+            } else {
+                newFlights[i] = flights[j++];
+            }
+        }
+        
+        delete [] flights;
+                
+        newFlights->sort(newFlights, count);
+                
+        newFlights->setNumFlights(count + 1);
+        
+        return newFlights;
+    } catch (const exception& e) {
+        cerr << "Error: " << e.what() << endl;
+    }
+    return flights;
+}
 
+// Overloaded - operator to delete a flight by index
+AEROFLOT* operator-(AEROFLOT* flights, const AEROFLOT& plugFlight) {
+    try {
+        int indexToRemove;
+        cout << "Input an index of the flight to be removed: ";
+        cin >> indexToRemove;
+
+        int numFlights = flights->getNumFlights();
+        
+        if (indexToRemove < 0 || indexToRemove >= numFlights) {
+            throw out_of_range("Invalid index for removing a flight.");
+        }
+
+        
+        // Create a new array with reduced size
+        AEROFLOT* newFlights = nullptr;
+        try {
+            newFlights = new AEROFLOT[numFlights - 1];
+        } catch (const bad_alloc& ba) {
+            cerr << "Memory allocation error: " << ba.what() << endl;
+            return flights;
+        }
+        
+        
         // Copy existing flights to the new array excluding the specified index
         int newIndex = 0;
         for (int i = 0; i < numFlights; i++) {
@@ -263,11 +309,13 @@ void AEROFLOT::operator-=(const int indexToRemove) {
         flights = newFlights;
 
         // Update the number of flights
-        numFlights--;
+        flights->setNumFlights(numFlights - 1);
 
-        std::cout << "Flight at index " << indexToRemove << " successfully removed.\n";
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << "\n";
+        cout << "Flight at index " << indexToRemove << " successfully removed.\n";
+        
+        return flights;
+    } catch (const exception& e) {
+        cerr << "Error: " << e.what() << endl;
     }
-    
+    return flights;
 }

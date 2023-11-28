@@ -3,10 +3,10 @@
 using namespace std;
 
 void Menu::task_1() {
-    AEROFLOT flights;   // flights array initiator
+    AEROFLOT* flights = nullptr;
     
     while (true) {
-        cout << "Options:" << endl;
+        cout << "\nOptions:" << endl;
         cout << "1. Add a new flight" << endl;
         cout << "2. Edit a flight" << endl;
         cout << "3. Delete a flight" << endl;
@@ -21,16 +21,15 @@ void Menu::task_1() {
         try {
             switch (choice) {
                 case 1: { // Add a new flight
-                    AEROFLOT newFlight;
+                    AEROFLOT newFlight; 
                     try {
-                        std::cin >> newFlight; // Use the overloaded '>>' operator
-                        flights += newFlight;
+                        cin >> newFlight; // Use the overloaded '>>' operator
+                        flights = flights + newFlight;
                         cout << "The flight was added." << endl;
-                    } catch (const std::invalid_argument& e) {
-                        std::cerr << "Error: " << e.what() << std::endl;
+                    } catch (const invalid_argument& e) {
+                        cerr << "Error: " << e.what() << endl;
                         continue;
                     }
-                    
                     break;
                 }
                 case 2: {
@@ -39,36 +38,33 @@ void Menu::task_1() {
                         int indexToEdit;
                         cin >> indexToEdit;
                         
-                        flights.editFlight(indexToEdit);
-                    } catch (const std::exception& e) {
-                        std::cerr << "Error: " << e.what() << "\n";
+                        flights->editFlight(flights, indexToEdit);
+                    } catch (const exception& e) {
+                        cerr << "Error: " << e.what() << endl;
                     }
                     break;
                 }
                 case 3: {
                     try {
-                        cout << "Input an index of the flight to be deleted: ";
-                        int indexToDelete;
-                        cin >> indexToDelete;
-                        
-                        flights -= indexToDelete;
-                    } catch (const std::exception& e) {
-                        std::cerr << "Error: " << e.what() << "\n";
+                        flights = flights - (*flights); // A plug to make things work
+                    } catch (const exception& e) {
+                        cerr << "Error: " << e.what() << endl;
                     }
                     break;
                 }
                 case 4:
-                    flights.displayFlights();
+                    flights->displayAllFlights(flights);
                     break;
                 case 5:
                     try {
-                        std::string destination;
-                        std::cout << "Enter the destination to display flights: ";
-                        std::cin >> destination;
+                        string destination;
+                        cin.ignore();
+                        cout << "Enter the destination to display flights: ";
+                        getline(cin, destination);
                         
-                        flights.displayFlightsToDestination(destination);
-                    } catch (const std::exception& e) {
-                        std::cerr << "Error: " << e.what() << "\n";
+                        flights->displayFlightsToDest(flights, destination);
+                    } catch (const exception& e) {
+                        cerr << "Error: " << e.what() << endl;
                     }
                     break;
                 case 6:
@@ -77,25 +73,18 @@ void Menu::task_1() {
                 default:
                     break;
             }
-        } catch (const std::invalid_argument& e) {
-            std::cerr << "Invalid input: " << e.what() << std::endl;
+        } catch (const invalid_argument& e) {
+            cerr << "Invalid input: " << e.what() << endl;
+            cin.clear();
+            cin.ignore();
         }
-        
     }
-    
-    
-    
-//    cout << "Enter data" << endl;
-//    cin >> aeroflot;
-//    cout << endl;
-//    cout << aeroflot;
-//    
 }
 
 void Menu::task_2() {
     string fileName;
         cout << "Enter the file name to read from: ";
-        cin >> fileName;
+        getline(cin, fileName);
     
     try {
         ifstream inputFile(fileName);  
@@ -124,11 +113,11 @@ void Menu::mainMenu() {
             cout << "1. Run Task 1" << endl;
             cout << "2. Run Task 2" << endl;
             cout << "0. Exit" << endl;
-            cout << "===========================" << endl;
+            cout << "===============================" << endl;
             cout << "Enter the option: ";
             
             cin >> option;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');  // Clear the input buffer
+            cin.ignore();  // Clear the input buffer
             
             switch (option) {
                 case '1':

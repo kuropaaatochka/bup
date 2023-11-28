@@ -17,32 +17,31 @@ public:
     int getFlightNumber() const;
     const std::string& getAircraftType() const;
     int getNumFlights() const;
-    AEROFLOT getFlight(int index) const {
-        return flights[index];
-    }
     
     void setDestination(const std::string& destination);
     void setFlightNumber(const int flightNumber);
     void setAircraftType(const std::string& aircraftType);
     void setNumFlights(const int num);
     
-    void displayFlights();
-    void displayFlightsToDestination(const std::string& dest);
-    void editFlight(const int index);
+    void displayAllFlights(const AEROFLOT* flights);
+    void displayFlightsToDest(const AEROFLOT* flights, const std::string& dest);
+    void editFlight(AEROFLOT* flights, const int index);
     void addFlightToPosition(int position, const AEROFLOT& flight);
+    
+    void sort(AEROFLOT* flights, const int count);
 
     // Operator overloads
     friend std::ostream& operator<<(std::ostream& out, const AEROFLOT& AEROFLOT);
     friend std::istream& operator>>(std::istream& in, AEROFLOT& AEROFLOT);
     
-    void operator+=(const AEROFLOT& newFlight);
-    void operator-=(const int indexToRemove);
+    // Overloaded + operator to add a flight to the array
+    friend AEROFLOT* operator+(AEROFLOT* flights, const AEROFLOT& newFlight);
+    // Overloaded - operator to delete a flight by index
+    friend AEROFLOT* operator-(AEROFLOT* flights, const AEROFLOT& plugFlight);
     
 private:
     int numFlights;
     std::string destination;
     int flightNumber;
     std::string aircraftType;
-    
-    AEROFLOT* flights;
 };
