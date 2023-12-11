@@ -141,8 +141,24 @@ void AEROFLOT::editFlight(AEROFLOT* flights, const int index) {
             case 2:
                 // Change Flight Number
                 int newFlightNumber;
-                cout << "Enter new Flight Number: ";
-                cin >> newFlightNumber;
+                while (true) {
+                    try {
+                        cout << "Enter Flight Number: ";
+                        cin >> newFlightNumber;
+
+                        if (cin.fail()) { // If input is not an integer
+                            throw invalid_argument("Flight number must be an integer.");
+                        } else if (newFlightNumber < 0) {
+                            throw invalid_argument("Flight number cannot be negative.");
+                        }
+
+                        break; // If valid input, exit the loop
+                    } catch (const exception& e) {
+                        cerr << e.what() << endl;
+                        cin.clear(); // Clear the error flag
+                        cin.ignore(); // Discard invalid input
+                    }
+                }
                 flights[index].setFlightNumber(newFlightNumber);
                 break;
             case 3:

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "AeroflotException.h"
-
 #include <iostream>
 #include <string>
 
